@@ -1,0 +1,99 @@
+#Declaring a class
+class Student:
+
+#Declaring a class variable
+  pass_percent = 40.0
+  num_of_students = 0
+  
+  def __init__(self, fname, lname, course, marks):
+    self.fname = fname
+    self.lname = lname
+    self.course = course
+    self.marks = marks
+# Every time a new instance is created, the number of students 
+# counter will increase
+    Student.num_of_students += 1
+
+#  Regular methods
+  def fullname(self):
+    return '{} {}'.format(self.fname, self.lname)
+  
+  def pass_fail(self):
+    if self.marks >= 40.0:
+      return 'pass'
+    else:
+      return 'fail'
+    
+#  Class Methods
+  @classmethod
+  def calculate_grade(cls, score):
+      pass
+    
+  @classmethod
+  def from_string(cls, stu_str):
+    fname, lname, course, marks = stu_str.split('-')
+    return cls(fname, lname, course, marks)
+    
+#Inheritance
+# Subclass 1 (undergraduate students)
+class Undergrad(Student):
+  pass_percent = 33.0
+  
+  def __init__(self, fname, lname, course, marks, clubs = None):
+    super().__init__(fname, lname, course, marks)
+    if clubs is None:
+      self.clubs = []
+    else:
+      self.clubs = clubs
+      
+  def add_club(self, club):
+    if club not in self.clubs:
+      self.clubs.append(club)
+      
+  def remove_club(self, club):
+    if club in self.clubs:
+      self.clubs.remove(club)
+      
+  def print_clubs(self):
+    print(self.clubs)
+  
+  
+
+# Subclass 2 (graduate students)
+class Graduate(Student):
+  pass_percent = 40.0
+  
+  def __init__(self, fname, lname, course, marks, work_ex):
+    super().__init__(fname, lname, course, marks)
+    self.work_ex = work_ex
+  
+s1 = Student('Sid','Goel','Data Science', 90)
+s2 = Student('S1','G1','Data Science', 25)
+
+stu_str1 = 'Iron-Man-CS-100'
+stu_str2 = 'Black-Widow-MEAM-78'
+stu_str3 = 'Jumbo-Hulk-SCMP-98'
+
+new_stu1 = Student.from_string(stu_str1)
+
+ug1 = Undergrad('Sid','Goel','Data Science', 90, ['Debating'])
+print(ug1.clubs)
+
+print(s1)
+print(s2)
+
+s1.fullname()
+#another way to write function call
+Student.fullname(s1)
+
+#print all the instance variables
+print(s1.__dict__)
+
+print(new_stu1.fname)
+print(new_stu1.lname)
+
+#isinstance()
+print(isinstance(ug1, Undergrad))
+
+#issubclass()
+print(issubclass(Graduate, Student))
